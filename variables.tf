@@ -17,7 +17,7 @@ variable "environment" {
 }
 
 variable "deploy_environment" {
-  description = "Name of the workload's environnement"
+  description = "Name of the workload's environment"
   type        = string
 }
 
@@ -30,6 +30,8 @@ variable "org_name" {
   description = "Name of the organization"
   type        = string
 }
+
+
 
 #######################
 # RG Configuration   ##
@@ -52,40 +54,137 @@ variable "existing_resource_group_name" {
   type        = string
   default     = null
 }
-
 #####################################
-# Private Endpoint Configuration   ##
+# API Management Configuration     ##
 #####################################
 
-variable "enable_private_endpoint" {
-  description = "Manages a Private Endpoint to Azure Container Registry. Default is false."
-  default     = false
+variable "create_apim_keyvault" {
+  description = "Controls if the keyvault should be created. If set to false, the keyvault name must be provided. Default is false."
+  type        = bool
+  default     = true
 }
 
-variable "existing_private_dns_zone" {
-  description = "Name of the existing private DNS zone"
+variable "create_apim_redis_cache" {
+  description = "Controls if the redis cache should be created. If set to false, the redis cache name must be provided. Default is false."
+  type        = bool
+  default     = true
+}
+
+variable "enable_redis_cache"{ 
+  description = "Controls if the redis cache should be enabled."
+  type        = bool
+  default     = true
+}
+
+variable "apim_custom_name" {
+  description = "Custom name for the API Management instance. If not set, the name will be generated using the `org_name`, `workload_name`, `deploy_environment` and `environment` variables."
+  type        = string
   default     = null
 }
 
-variable "private_subnet_address_prefix" {
-  description = "The name of the subnet for private endpoints"
-  default     = null
+variable "sku_tier"{
+  description = "The tier of the API Management instance. Possible values are Developer, Basic, Standard, Premium, Consumption."
+  type        = string
+  default     = "Developer"
+}
+variable "sku_capacity"{
+  description = "The capacity of the API Management instance. Possible values are positive integers from 1-12, except for Consumption tier where it is 0."
+  type        = number
+  default     = 1
+}
+variable virtual_network_type {
+  description = "The type of the virtual network. Possible values are External, Internal, None."
+  type        = string
+  default     = "Internal"
 }
 
-variable "create_private_endpoint_subnet" {
-  description = "Controls if the subnet should be created. If set to false, the subnet name must be provided. Default is false."
+variable "publisher_email" {
+  description = "The email address of the publisher."
+  type        = string
+}
+variable "publisher_name" {
+  description = "The name of the publisher."
+  type        = string
+}
+
+variable "enable_user_identity" {
+  description = "Controls if the user identity should be enabled."
+  type        = bool
+  default     = true
+}
+
+variable "min_api_version" {
+  description = "The minimum supported API version for the API Management Management API."
+  type        = string
+  default     = "2021-08-01"
+}
+#####################################
+# Networking Configuration         ## 
+#####################################
+variable "apim_subnet_name" {
+  description = "Name of the subnet for the API Management"
+  type        = string
+}
+variable "private_endpoint_subnet_prefix" {
+  description = "The address prefix to use for the subnet."
+  type        = list(string)
+  default = []
+}
+variable "private_endpoint_subnet_name" {
+  description = "Name of the subnet for the private endpoint"
+  type        = string
+}
+variable "virtual_network_name" {
+  description = "Name of the virtual network"
+  type        = string
+}
+variable "existing_subnet_id" {
+  description = "The ID of an existing subnet to use. If not set, a new subnet will be created."
+  type        = string
+  default     = null
+}
+variable "existing_apim_private_dns_zone" {
+  description = "The ID of an existing private dns zone to use. If not set, a new private dns zone will be created."
+  type        = string
+  default     = null
+}
+variable "existing_apim_dev_portal_dns_zone" {
+  description = "The ID of an existing private dns zone to use. If not set, a new private dns zone will be created."
+  type        = string
+  default     = null
+}
+variable "existing_vnet_id"{
+  description = "The ID of an existing virtual network to use. If not set, a new virtual network will be created."
+  type        = string
+  default     = null
+}
+##########################
+# KeyVault Configuration #
+##########################
+variable "enable_key_vault" {
+  description = "Controls if the keyvault should be created. Default is true."
+  type        = bool
+  default     = true
+}
+variable "key_vault_custom_name" {
+  description = "Custom name for the keyvault. If not set, the name will be generated using the `org_name`, `workload_name`, `deploy_environment` and `environment` variables."
+  type        = string
+  default     = null
+}
+variable "purge_protection_enabled" {
+  description = "Specifies whether protection against purge is enabled for this key vault. Default is true."
+  type        = bool
+  default     = true
+}
+
+variable "enabled_for_template_deployment" {
+  description = "Specifies whether Azure Resource Manager is permitted to retrieve secrets from the key vault."
   type        = bool
   default     = false
 }
 
-variable "existing_private_subnet_name" {
-  description = "Name of the existing subnet for the private endpoint"
-  default     = null
+variable "key_vault_sku_name" {
+  description = "The SKU name of the Key Vault to create. Possible values are standard and premium."
+  type        = string
+  default     = "standard"
 }
-
-variable "virtual_network_name" {
-  description = "Name of the virtual network for the private endpoint"
-  default     = null
-}
-
-# Add more variables as needed

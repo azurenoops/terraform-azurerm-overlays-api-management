@@ -7,8 +7,16 @@
 resource "azurerm_management_lock" "resource_group_level_lock" {
   count      = var.enable_resource_locks ? 1 : 0
   
-  name       = "${local.rg_name}-${var.lock_level}-lock"
-  scope      = azurerm_resource_group.main_rg.id
+  name       = "${local.resource_group_name}-${var.lock_level}-lock"
+  scope      = data.azurerm_resource_group.rg.id
   lock_level = var.lock_level
-  notes      = "Resource Group '${local.rg_name}' is locked with '${var.lock_level}' level."
+  notes      = "Resource Group '${local.resource_group_name}' is locked with '${var.lock_level}' level."
+}
+resource "azurerm_management_lock" "apim_level_lock" {
+  count      = var.enable_resource_locks ? 1 : 0
+  
+  name       = "${local.apim_name}-${var.lock_level}-lock"
+  scope      = azurerm_api_management.api_management.id
+  lock_level = var.lock_level
+  notes      = "API Management '${local.apim_name}' is locked with '${var.lock_level}' level."
 }

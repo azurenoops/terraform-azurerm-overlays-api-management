@@ -11,7 +11,6 @@ module "mod_azregions" {
 
   azure_region = var.location
 }
-
 # By default, this module will not create a resource group
 # provide a name to use an existing resource group, specify the existing resource group name,
 # and set the argument to `create_resource_group = false`. Location will be same as existing RG.
@@ -37,8 +36,6 @@ module "mod_scaffold_rg" {
   custom_rg_name          = var.custom_resource_group_name != null ? var.custom_resource_group_name : null
 
   // Tags
-  add_tags = merge(var.tags, {
-    DeployedBy = format("AzureNoOpsTF [%s]", terraform.workspace)
-  }) # Tags to be applied to all resources
+  add_tags = merge(var.add_tags, local.default_tags) # Tags to be applied to all resources
 }
 
