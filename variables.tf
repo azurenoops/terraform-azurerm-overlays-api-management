@@ -116,7 +116,7 @@ variable "enable_user_identity" {
 variable "min_api_version" {
   description = "The minimum supported API version for the API Management Management API."
   type        = string
-  default     = "2021-08-01"
+  default     = "2022-08-01"
 }
 #####################################
 # Networking Configuration         ## 

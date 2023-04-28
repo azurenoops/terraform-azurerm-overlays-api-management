@@ -27,7 +27,7 @@ resource "azurerm_api_management" "api_management" {
   publisher_name      = var.publisher_name
   publisher_email     = var.publisher_email
 
- # min_api_version     = var.min_api_version 
+  min_api_version     = var.min_api_version 
   public_ip_address_id = azurerm_public_ip.apim_pip.id
   sku_name             = local.sku_name
   virtual_network_type = var.virtual_network_type
@@ -46,6 +46,7 @@ resource "azurerm_api_management" "api_management" {
 resource "azurerm_api_management_redis_cache" "api_management_redis_cache" {
   #count = var.enable_redis_cache ? 1 : 0
   depends_on = [
+    azurerm_api_management.api_management,
     module.mod_redis_cache
   ]
   name              = lower(module.mod_redis_cache.0.redis_name)
