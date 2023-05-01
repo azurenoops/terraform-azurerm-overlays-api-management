@@ -17,8 +17,8 @@ resource "azurerm_api_management" "api_management" {
     azurerm_subnet_network_security_group_association.apim-subnet-nsg-association
   ]
   timeouts {
-    create = "60m"
-    update = "60m"
+    create = "240m"
+    update = "120m"
     delete = "60m"
   }
   name                = local.apim_name
