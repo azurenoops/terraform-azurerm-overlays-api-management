@@ -2,13 +2,13 @@ resource "azurerm_public_ip" "apim_pip" {
   # To deploy APIM to the stv2 platform, you must specify a public IP address else it will deploy to stv1. 
   # The stv2 platform currently is not supported in Azure USGovernment.  Remove this check when stv2 is supported in Azure US Government. 
   #count = var.environment == "public" ? 1 : 0
-  name = local.apim_pip_name
+  name                = local.apim_pip_name
   resource_group_name = local.resource_group_name
-  location = local.location
-  allocation_method = "Static"
-  sku = "Standard"
-  domain_name_label = lower(local.apim_pip_name)
-  tags = merge(var.add_tags, local.default_tags)
+  location            = local.location
+  allocation_method   = "Static"
+  sku                 = "Standard"
+  domain_name_label   = lower(local.apim_pip_name)
+  tags                = merge(var.add_tags, local.default_tags)
 }
 resource "azurerm_api_management" "api_management" {
   depends_on = [
@@ -27,7 +27,7 @@ resource "azurerm_api_management" "api_management" {
   publisher_name      = var.publisher_name
   publisher_email     = var.publisher_email
 
-  min_api_version     = var.min_api_version 
+  min_api_version      = var.min_api_version
   public_ip_address_id = azurerm_public_ip.apim_pip.id
   sku_name             = local.sku_name
   virtual_network_type = var.virtual_network_type
@@ -37,7 +37,7 @@ resource "azurerm_api_management" "api_management" {
   identity {
     type = "UserAssigned"
     identity_ids = [
-      azurerm_user_assigned_identity.apim_identity.id 
+      azurerm_user_assigned_identity.apim_identity.id
     ]
   }
   tags = merge(var.add_tags, local.default_tags)
@@ -58,9 +58,9 @@ resource "azurerm_api_management_redis_cache" "api_management_redis_cache" {
 }
 
 resource "azurerm_private_dns_zone" "apim_dns_zone" {
-depends_on = [
-  azurerm_api_management.api_management
-]
+  depends_on = [
+    azurerm_api_management.api_management
+  ]
   count               = var.existing_apim_private_dns_zone == null ? 1 : 0
   name                = var.environment == "public" ? "${local.apim_name}.azure-api.net" : "${local.apim_name}.azure-api.us"
   resource_group_name = local.resource_group_name
@@ -75,9 +75,9 @@ resource "azurerm_private_dns_zone_virtual_network_link" "apim_vnet_link" {
   tags                  = merge({ "Name" = format("%s", "Azure-APIM-Private-DNS-Zone") }, var.add_tags, )
 }
 resource "azurerm_private_dns_zone" "apim_dev_portal_dns_zone" {
-depends_on = [
-  azurerm_api_management.api_management
-]
+  depends_on = [
+    azurerm_api_management.api_management
+  ]
   count               = var.existing_apim_dev_portal_dns_zone == null ? 1 : 0
   name                = var.environment == "public" ? "${local.apim_dev_portal_fqdn}.azure-api.net" : "${local.apim_dev_portal_fqdn}.azure-api.us"
   resource_group_name = local.resource_group_name
@@ -94,14 +94,14 @@ resource "azurerm_private_dns_zone_virtual_network_link" "apim_dev_portalvnet_li
 
 resource "azurerm_private_dns_a_record" "apim_a_rec" {
   name                = lower(local.apim_name)
-  zone_name           = var.existing_apim_private_dns_zone == null ? azurerm_private_dns_zone.apim_dns_zone.0.name  : var.existing_apim_private_dns_zone
+  zone_name           = var.existing_apim_private_dns_zone == null ? azurerm_private_dns_zone.apim_dns_zone.0.name : var.existing_apim_private_dns_zone
   resource_group_name = local.resource_group_name
   ttl                 = 300
   records             = [data.azurerm_api_management.apim.private_ip_addresses.0]
 }
 resource "azurerm_private_dns_a_record" "apim_dev_portal_a_rec" {
   name                = lower(local.apim_dev_portal_fqdn)
-  zone_name           = var.existing_apim_dev_portal_dns_zone == null ? azurerm_private_dns_zone.apim_dev_portal_dns_zone.0.name  : var.existing_apim_dev_portal_dns_zone
+  zone_name           = var.existing_apim_dev_portal_dns_zone == null ? azurerm_private_dns_zone.apim_dev_portal_dns_zone.0.name : var.existing_apim_dev_portal_dns_zone
   resource_group_name = local.resource_group_name
   ttl                 = 300
   records             = [data.azurerm_api_management.apim.private_ip_addresses.0]

@@ -188,3 +188,15 @@ variable "key_vault_sku_name" {
   type        = string
   default     = "standard"
 }
+
+variable "enable_application_insights" {
+  description = "Controls if the application insights should be created. Default is true."
+  type        = bool
+  default     = true
+}
+
+variable "log_analytics_workspace_id" {
+  description = "The ID of the Log Analytics Workspace to use for Application Insights."
+  type        = string
+  default     = null
+}

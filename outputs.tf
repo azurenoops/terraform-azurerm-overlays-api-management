@@ -5,8 +5,7 @@
 # Outputs    ##
 ###############
 
-# Add outputs for the resource
-# output "template_example" {
-#  value       = template.name
-#  description = "Resource group name"
-# }
+output "apim_id" {
+    value = data.azurerm_api_management.apim.id
+}
+
