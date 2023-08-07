@@ -1,3 +1,6 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+
 resource "azurerm_application_insights" "apim_app_insights" {  
   count               = var.enable_application_insights ? 1 : 0
   location            = local.location
@@ -6,6 +9,7 @@ resource "azurerm_application_insights" "apim_app_insights" {
   resource_group_name = local.resource_group_name
   application_type    = "web"
 }
+
 resource "azurerm_api_management_logger" "app_insights" {
  depends_on = [ 
     azurerm_api_management.api_management,
