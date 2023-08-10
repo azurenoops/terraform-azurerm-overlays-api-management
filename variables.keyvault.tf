@@ -1,17 +1,21 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
 
 ##########################
 # KeyVault Configuration #
 ##########################
-variable "enable_key_vault" {
-  description = "Controls if the keyvault should be created. Default is true."
+variable "create_apim_keyvault" {
+  description = "Controls if the keyvault should be created. If set to false, the keyvault name must be provided. Default is false."
   type        = bool
   default     = true
 }
+
 variable "key_vault_custom_name" {
   description = "Custom name for the keyvault. If not set, the name will be generated using the `org_name`, `workload_name`, `deploy_environment` and `environment` variables."
   type        = string
   default     = null
 }
+
 variable "purge_protection_enabled" {
   description = "Specifies whether protection against purge is enabled for this key vault. Default is true."
   type        = bool

@@ -57,14 +57,46 @@ variable "existing_resource_group_name" {
 # Private Endpoint Configuration   ##
 #####################################
 
-variable "virtual_network_name" {
-  description = "The name of the virtual network of the private endpoint"
+variable "enable_private_endpoint" {
+  description = "Manages a Private Endpoint to Azure API Management. Default is false."
+  default     = false
+}
+
+variable "existing_private_dns_zone" {
+  description = "Name of the existing private DNS zone"
+  default     = null
+}
+
+variable "existing_private_subnet_name" {
+  description = "Name of the existing private subnet for the private endpoint"
+  default     = null
+}
+
+variable "existing_keyvault_private_dns_zone" {
+  description = "The ID of an existing private dns zone to use for Key Vault. If not set, a new private dns zone will be created."
   type        = string
   default     = null
 }
 
-variable "private_endpoint_subnet_name" {
-  description = "The name of the subnet of the private endpoint"
+variable "existing_redis_private_dns_zone" {
+  description = "The ID of an existing private dns zone to use for Redis. If not set, a new private dns zone will be created."
+  type        = string
+  default     = null
+}
+
+variable "virtual_network_name" {
+  description = "Name of the virtual network for the private endpoint"
+  default     = null
+}
+
+variable "existing_apim_private_dns_zone" {
+  description = "The ID of an existing private dns zone to use. If not set, a new private dns zone will be created."
+  type        = string
+  default     = null
+}
+
+variable "existing_apim_dev_portal_dns_zone" {
+  description = "The ID of an existing private dns zone to use. If not set, a new private dns zone will be created."
   type        = string
   default     = null
 }
