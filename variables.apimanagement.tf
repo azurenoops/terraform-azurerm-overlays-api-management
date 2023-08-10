@@ -62,9 +62,4 @@ variable "apim_subnet_name" {
   type        = string
 }
 
-variable "existing_vnet_id"{
-  description = "The ID of an existing virtual network to use. If not set, a new virtual network will be created."
-  type        = string
-  default     = null
-}
 
