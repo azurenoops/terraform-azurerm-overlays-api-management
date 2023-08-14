@@ -25,6 +25,7 @@ resource "azurerm_api_management" "api_management" {
     update = "120m"
     delete = "60m"
   }
+
   name                = local.apim_name
   location            = local.location
   resource_group_name = local.resource_group_name
@@ -34,16 +35,19 @@ resource "azurerm_api_management" "api_management" {
   min_api_version      = var.min_api_version
   public_ip_address_id = azurerm_public_ip.apim_pip.id
   sku_name             = local.sku_name
-  virtual_network_type = var.virtual_network_type
+  virtual_network_type = "Internal" # This is used for SCCA compliance
+
   virtual_network_configuration {
     subnet_id = data.azurerm_subnet.apim_subnet.id
   }
+
   identity {
     type = "UserAssigned"
     identity_ids = [
       azurerm_user_assigned_identity.apim_identity.id
     ]
   }
+
   tags = merge(var.add_tags, local.default_tags)
 }
 

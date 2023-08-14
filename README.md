@@ -63,7 +63,6 @@ module "mod_apim" {
   sku_tier             = "Developer"
   sku_capacity         = 1
   enable_user_identity = true
-  virtual_network_type = "Internal"
   apim_subnet_name     = azurerm_subnet.apim_subnet.name
   min_api_version      = "2019-12-01"
 
@@ -180,7 +179,6 @@ module "mod_apim" {
 | use\_location\_short\_name | Use short location name for resources naming (ie eastus -> eus). Default is true. If set to false, the full cli location name will be used. if custom naming is set, this variable will be ignored. | `bool` | `true` | no |
 | use\_naming | Use the Azure NoOps naming provider to generate default resource name. `storage_account_custom_name` override this if set. Legacy default name is used if this is set to `false`. | `bool` | `true` | no |
 | virtual\_network\_name | Name of the virtual network for the private endpoint | `any` | `null` | no |
-| virtual\_network\_type | The type of the virtual network. Possible values are External, Internal, None. | `string` | `"Internal"` | no |
 | workload\_name | Name of the workload\_name | `string` | n/a | yes |
 ## Outputs
 

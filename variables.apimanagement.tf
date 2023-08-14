@@ -27,11 +27,6 @@ variable "sku_capacity"{
   type        = number
   default     = 1
 }
-variable virtual_network_type {
-  description = "The type of the virtual network. Possible values are External, Internal, None."
-  type        = string
-  default     = "Internal"
-}
 
 variable "publisher_email" {
   description = "The email address of the publisher."

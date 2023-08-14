@@ -30,8 +30,7 @@ module "mod_apim" {
   sku_tier             = "Developer"
   sku_capacity         = 1
   enable_user_identity = true
-  virtual_network_type = "Internal"
-  apim_subnet_name     = azurerm_subnet.apim_subnet.name
+  apim_subnet_name     = azurerm_subnet.apim_subnet.name # This is the subnet where APIM will be deployed. 
   min_api_version      = "2019-12-01"
 
   # Creating Private Endpoint requires, VNet name to create a Private Endpoint
