@@ -18,7 +18,6 @@ data "azurenoopsutils_resource_name" "pip_name" {
   resource_type = "azurerm_public_ip"
   prefixes      = [var.org_name, var.use_location_short_name ? module.mod_azregions.location_short : var.location]
   suffixes      = compact([var.name_prefix == "" ? null : local.name_prefix, var.deploy_environment, local.name_suffix])
-  use_slug      = var.use_naming
   clean_input   = true
   separator     = "-"
 }
