@@ -24,24 +24,23 @@ module "mod_apim" {
   org_name                     = "anoa"
   workload_name                = "apim"
 
-  publisher_email = "apim_admins@microsoft.com"
-  publisher_name  = "apim"
-
-  sku_tier             = "Developer"
-  sku_capacity         = 1
+  # API Management configuration
   enable_user_identity = true
-  apim_subnet_name     = azurerm_subnet.apim_subnet.name # This is the subnet where APIM will be deployed. 
+  publisher_email = "apim_admins@microsoft.com"
+  publisher_name  = "apim"  
   min_api_version      = "2019-12-01"
 
-  # Creating Private Endpoint requires, VNet name to create a Private Endpoint
-  # By default this will create a `"${local.apim_name}.azure-api.net"` DNS zone. if created in commercial cloud
-  # To use existing subnet, specify `existing_private_subnet_name` with valid subnet name. 
-  # To use existing private DNS zone specify `existing_private_dns_zone` with valid zone name
-  # Private endpoints doesn't work If not using `existing_private_subnet_name` to create redis inside a specified VNet/Snet.
-  enable_private_endpoint      = false
+  # SKU configuration
+  sku_tier             = "Developer"
+  sku_capacity         = 1
+
+  # Virtual network configuration
+  virtual_network_name = azurerm_virtual_network.apim_vnet.name
+  apim_subnet_name     = azurerm_subnet.apim_subnet.name # This is the subnet where APIM will be deployed. 
   
-  # All services need to use an private subnet to create private endpoints.
-  virtual_network_name         = azurerm_virtual_network.apim_vnet.name
+  # Private endpoint configuration
+  # Key Vault and Redis are deployed by default.
+  # So we need to make sure that the subnet is configured for private endpoints.
   existing_private_subnet_name = azurerm_subnet.pe_subnet.name
 
   # This is to enable resource locks for the key vault. 
