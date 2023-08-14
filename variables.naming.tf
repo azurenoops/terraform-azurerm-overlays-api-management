@@ -19,7 +19,7 @@ variable "name_suffix" {
 variable "use_naming" {
   description = "Use the Azure NoOps naming provider to generate default resource name. `storage_account_custom_name` override this if set. Legacy default name is used if this is set to `false`."
   type        = bool
-  default     = true
+  default     = false
 }
 
 # Custom naming override

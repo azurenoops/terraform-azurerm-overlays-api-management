@@ -57,16 +57,6 @@ variable "existing_resource_group_name" {
 # Private Endpoint Configuration   ##
 #####################################
 
-variable "enable_private_endpoint" {
-  description = "Manages a Private Endpoint to Azure API Management. Default is false."
-  default     = false
-}
-
-variable "existing_private_dns_zone" {
-  description = "Name of the existing private DNS zone"
-  default     = null
-}
-
 variable "existing_private_subnet_name" {
   description = "Name of the existing private subnet for the private endpoint"
   default     = null

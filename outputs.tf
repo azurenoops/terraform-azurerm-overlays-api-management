@@ -6,11 +6,11 @@
 ###############
 
 output "apim_id" {
-    value = data.azurerm_api_management.apim.id
+    value = azurerm_api_management.api_management.id
 }
 
 output "apim_name" {
-    value = data.azurerm_api_management.apim.name
+    value = azurerm_api_management.api_management.name
 }
 
 
