@@ -8,18 +8,34 @@ data "azurenoopsutils_resource_name" "apim" {
   name          = var.workload_name
   resource_type = "azurerm_api_management"
   prefixes      = [var.org_name, var.use_location_short_name ? module.mod_azregions.location_short : var.location]
-  suffixes      = compact([var.name_prefix == "" ? null : local.name_prefix, var.environment, local.name_suffix, var.use_naming ? "" : "apim"])
-  use_slug      = var.use_naming
+  suffixes      = compact([var.name_prefix == "" ? null : local.name_prefix, var.deploy_environment, local.name_suffix])
   clean_input   = true
   separator     = "-"
 }
 
-data "azurenoopsutils_resource_name" "keyvault" {
+data "azurenoopsutils_resource_name" "pip_name" {
   name          = var.workload_name
-  resource_type = "azurerm_key_vault"
-  prefixes      = [var.org_name, module.mod_azregions.location_short]
-  suffixes      = compact([var.name_prefix == "" ? null : local.name_prefix, var.environment, local.name_suffix, var.use_naming ? "" : "kv"])
-  use_slug      = var.use_naming
+  resource_type = "azurerm_public_ip"
+  prefixes      = [var.org_name, var.use_location_short_name ? module.mod_azregions.location_short : var.location]
+  suffixes      = compact([var.name_prefix == "" ? null : local.name_prefix, var.deploy_environment, local.name_suffix])
+  clean_input   = true
+  separator     = "-"
+}
+
+data "azurenoopsutils_resource_name" "nsg" {
+  name          = var.workload_name
+  resource_type = "azurerm_network_security_group"
+  prefixes      = [var.org_name, var.use_location_short_name ? module.mod_azregions.location_short : var.location]
+  suffixes      = compact([var.name_prefix == "" ? null : local.name_prefix, var.deploy_environment, local.name_suffix])
+  clean_input   = true
+  separator     = "-"
+}
+
+data "azurenoopsutils_resource_name" "identity" {
+  name          = var.workload_name
+  resource_type = "azurerm_user_assigned_identity"
+  prefixes      = [var.org_name, var.use_location_short_name ? module.mod_azregions.location_short : var.location]
+  suffixes      = compact([var.name_prefix == "" ? null : local.name_prefix, var.deploy_environment, local.name_suffix])
   clean_input   = true
   separator     = "-"
 }
