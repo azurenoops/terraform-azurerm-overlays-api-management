@@ -44,10 +44,10 @@ resource "azurerm_management_lock" "apim_pip_level_lock" {
   depends_on = [
     azurerm_api_management.api_management
   ]
-  count = var.enable_resource_locks ? 1 : 0
+  count = var.enable_resource_locks && var.environment == "public" ? 1 : 0
 
   name       = "${local.apim_pip_name}-${var.lock_level}-lock"
-  scope      = azurerm_public_ip.apim_pip.id
+  scope      = azurerm_public_ip.apim_pip[0].id
   lock_level = var.lock_level
   notes      = "API Management PIP '${local.apim_pip_name}' is locked with '${var.lock_level}' level."
 }
